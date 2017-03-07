@@ -1,9 +1,4 @@
-import webbrowser
-import os
-import re
 
-# Styles and scripting for the page
-main_page_head = '''
 <head>
     <meta charset="utf-8">
     <title>Fresh Tomatoes!</title>
@@ -80,10 +75,7 @@ main_page_head = '''
         });
     </script>
 </head>
-'''
 
-# The main page layout and title bar
-main_page_content = '''
 <!DOCTYPE html>
 <html lang="en">
   <body>
@@ -111,48 +103,52 @@ main_page_content = '''
       </div>
     </div>
     <div class="container">
-      {book_tiles}
+      
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="http://i.huffpost.com/gen/989163/images/o-NEW-HARRY-POTTER-COVER-facebook.jpg" width="220" height="342">
+    <h2>Harry Potter and Philospher Stone</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="http://static2.hypable.com/wp-content/uploads/2013/05/harry-potter-new-chamber-of-secrets-cover-630.jpg" width="220" height="342">
+    <h2>Harry Potter and Chambers of Secret</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="http://static3.businessinsider.com/image/522e2499ecad04ee4dba226d-1200-900/prisoner%20of%20azkaban-1.jpg" width="220" height="342">
+    <h2>Harry Potter and Prisoner of Azkaban</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="https://dotgumbi.files.wordpress.com/2014/07/goblet.png" width="220" height="342">
+    <h2>Harry Potter and Goblet of Fire</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="https://s-media-cache-ak0.pinimg.com/736x/33/fc/e3/33fce36acccd956d4b3dfa64c8ba1589.jpg" width="220" height="342">
+    <h2>Harry Potter and Order of Phoenix</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="https://s-media-cache-ak0.pinimg.com/736x/67/c6/7f/67c67fa19b630b8998c65b9e0572bf17.jpg" width="220" height="342">
+    <h2>Harry Potter and Half Blood Prince</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="http://bookriotcom.c.presscdn.com/wp-content/uploads/2014/08/HP_pb_new_7.jpg" width="220" height="342">
+    <h2>Harry Potter and Deathly Hallows</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="i_up1VTG7Fs" data-toggle="modal" data-target="#trailer">
+    <img src="http://mediaroom.scholastic.com/files/HP_CURSED_CHILD_COVER_FINAL.jpg" width="220" height="342">
+    <h2>Harry Potter and Cursed Child</h2>
+</div>
+
+<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="tpCeDopdlwU" data-toggle="modal" data-target="#trailer">
+    <img src="http://static2.hypable.com/wp-content/uploads/2011/10/422825083.jpeg" width="220" height="342">
+    <h2>Hunger Games</h2>
+</div>
+
     </div>
   </body>
 </html>
-'''
-
-# A single book entry html template
-book_tile_content = '''
-<div class="col-md-6 col-lg-4 book-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
-    <img src="{poster_image_url}" width="220" height="342">
-    <h2>{book_title}</h2>
-</div>
-'''
-
-def create_book_tiles_content(books):
-    # The HTML content for this section of the page
-    content = ''
-    for book in books:
-        # Extract the youtube ID from the url
-        youtube_id_match = re.search(r'(?<=v=)[^&#]+', book.interview)
-        youtube_id_match = youtube_id_match or re.search(r'(?<=be/)[^&#]+', book.interview)
-        trailer_youtube_id = youtube_id_match.group(0) if youtube_id_match else None
-
-        # Append the tile for the book with its content filled in
-        content += book_tile_content.format(
-            book_title=book.title,
-            poster_image_url=book.cover_image,
-            trailer_youtube_id=trailer_youtube_id
-        )
-    return content
-
-def open_book_page(books):
-  # Create or overwrite the output file
-  output_file = open('fresh_tomatoes.html', 'w')
-
-  # Replace the placeholder for the book tiles with the actual dynamically generated content
-  rendered_content = main_page_content.format(book_tiles=create_book_tiles_content(books))
-
-  # Output the file
-  output_file.write(main_page_head + rendered_content)
-  output_file.close()
-
-  # open the output file in the browser
-  url = os.path.abspath(output_file.name)
-  webbrowser.open('file://' + url, new=2) # open in a new tab, if possible
